@@ -1,3 +1,17 @@
+# CHANGE THIS LINE:
+version = ">= 3.116.0, < 4.0.0"
+
+# TO THIS:
+version = ">= 3.116.0, < 5.0.0"
+
+# Clear any cached provider data
+rm -rf .terraform .terraform.lock.hcl
+
+# Re-initialize with new version constraints
+terraform init
+
+# Should work now!
+----------------------------------------------------
 From https://github.com/etmanjunath21/AVM-VM-Deployment
    efdc8c5..c98d1c5  main       -> origin/main
 Updating efdc8c5..c98d1c5
