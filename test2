@@ -1,3 +1,92 @@
+# Resource Group Outputs
+output "resource_group_name" {
+  description = "Name of the resource group"
+  value       = data.azurerm_resource_group.main.name
+}
+
+output "resource_group_location" {
+  description = "Location of the resource group"
+  value       = data.azurerm_resource_group.main.location
+}
+
+# Key Vault Outputs
+output "key_vault_id" {
+  description = "ID of the Key Vault"
+  value       = module.key_vault.resource_id
+}
+
+output "key_vault_name" {
+  description = "Name of the Key Vault"
+  value       = module.key_vault.name
+}
+
+output "key_vault_uri" {
+  description = "URI of the Key Vault"
+  value       = module.key_vault.uri
+}
+
+# Virtual Network Outputs
+output "virtual_network_id" {
+  description = "ID of the Virtual Network"
+  value       = module.virtual_network.resource_id
+}
+
+output "virtual_network_name" {
+  description = "Name of the Virtual Network"
+  value       = module.virtual_network.name
+}
+
+output "subnet_id" {
+  description = "ID of the VM subnet"
+  value       = module.virtual_network.subnets["vm_subnet"].resource_id
+}
+
+output "subnet_name" {
+  description = "Name of the VM subnet"
+  value       = var.subnet_name
+}
+
+# Network Security Group Outputs
+output "network_security_group_id" {
+  description = "ID of the Network Security Group"
+  value       = module.network_security_group.resource_id
+}
+
+output "network_security_group_name" {
+  description = "Name of the Network Security Group"
+  value       = module.network_security_group.name
+}
+
+
+Great! The provider initialization worked, but now we have an issue with the Key Vault module outputs. The newer version of the AVM Key Vault module has different output names.
+Let me fix the outputs file:"Azure/avm-res-keyvault-vault" terraform outputs resource_id name8 resultsAzure/avm-res-keyvault-vault/azurerm | Terraform Registryterraform.ioAzure/avm-res-keyvault-vault/azurermterraform.ioTerraform Quickstart Guide | AVMgithub.ioAzure/avm-res-keyvault-vault/azurerm | create-secret ...terraform.ioAzure/avm-res-keyvault-vault/azurerm | key Submoduleterraform.ioAzure/avm-res-keyvault-vault/azurerm | create-key Exampleterraform.ioAzure/avm-res-keyvault-vault/azurerm | diagnostic-settings ...terraform.ioAzure/avm-res-keyvault-vault/azurerm | secret Submoduleterraform.ioLet me search for the specific output names in the Key Vault module:AVM keyvault vault terraform output resource_id name location github10 resultsGitHub - Azure/terraform-azurerm-avm-res-keyvault-vault: Azure Verified Module for Key Vaultgithub.comazurerm_key_vault | Resources | hashicorp/azurerm | Terraformterraform.ioQuickstart: Create an Azure key vault and key using Terraform | Microsoft Learnmicrosoft.comMicrosoft.KeyVault/vaults - Bicep, ARM template & Terraform AzAPI reference | Microsoft Learnmicrosoft.comazurerm_key_vault_secret - Terraform Registryterraform.ioTerraform Resource Modules | AVMgithub.ioTerraform Quickstart Guide | AVMgithub.ioterraform-azurerm-avm-res-keyvault-vault/outputs.tf at main · Azure/terraform-azurerm-avm-res-keyvault-vaultgithub.comGitHub - kumarvna/terraform-azurerm-key-vault: Terraform module to create a Key Vault in Azure cloud.github.comHow to write your first AVM resource modulekewalaka.nzPerfect! I found the correct output names from the GitHub source. The AVM Key Vault module uses different output names than what was in your outputs.tf file.
+Let me fix the outputs file:01-prerequisites/outputs.tf - Fixed VersionCode # Resource Group Outputs
+output "resource_group_name" {
+  description = "Name of the resource group"
+  value       = data.azurerm_resource_group.main.name
+}
+
+output "resource_group_location" {
+  description = "Location of the resource group"
+  value 🔧 Fixed the Outputs!
+The issue was: The AVM Key Vault module v0.9+ uses different output names:
+❌ OLD (BROKEN):
+hclvalue = module.key_vault.resource.name      # ← Doesn't exist
+value = module.key_vault.resource.location  # ← Doesn't exist
+✅ NEW (CORRECT):
+hclvalue = module.key_vault.name        # ← Correct
+value = module.key_vault.resource_id # ← Correct  
+value = module.key_vault.uri         # ← Correct
+📝 Copy the Fixed Outputs:
+Replace your entire examples/01-prerequisites/outputs.tf with the corrected version above.
+🚀 Try Again:
+bashterraform plan
+This should now work! The fixed outputs use the correct attribute names from the AVM Key Vault module v0.9.x.
+
+
+
+
+
 PS C:\Users\v-manjunathe\avm-vm-deployment\AVM-VM-Deployment\examples\01-prerequisites> terraform init
 Initializing the backend...
 Initializing modules...
