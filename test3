@@ -1,3 +1,48 @@
+# Login to Azure
+az login
+
+# Verify you're connected and see your subscriptions
+az account list --output table
+
+# Set the subscription you want to use (if you have multiple)
+az account set --subscription "your-subscription-id-here"
+
+# Verify current subscription
+az account show
+
+# Set these environment variables
+export ARM_SUBSCRIPTION_ID="your-subscription-id"
+export ARM_TENANT_ID="your-tenant-id"
+export ARM_CLIENT_ID="your-client-id"
+export ARM_CLIENT_SECRET="your-client-secret"
+
+Option 3: Provider Configuration
+Add to your main.tf provider block:
+hclprovider "azurerm" {
+  features {
+    key_vault {
+      purge_soft_delete_on_destroy    = true
+      recover_soft_deleted_key_vaults = true
+    }
+  }
+  subscription_id = "your-subscription-id-here"
+}
+
+
+Quick Steps:
+
+Login with Azure CLI:
+bashaz login
+
+Run plan again:
+bashterraform plan
+
+If successful, apply:
+bashterraform apply
+
+
+
+
 PS C:\Users\v-manjunathe\avm-vm-deployment\AVM-VM-Deployment\examples\01-prerequisites> terraform plan
 module.network_security_group.data.modtm_module_source.telemetry[0]: Reading...
 module.key_vault.data.modtm_module_source.telemetry[0]: Reading...
