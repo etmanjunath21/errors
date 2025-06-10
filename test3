@@ -1,0 +1,60 @@
+PS C:\Users\v-manjunathe\avm-vm-deployment\AVM-VM-Deployment\examples\01-prerequisites> terraform plan
+module.network_security_group.data.modtm_module_source.telemetry[0]: Reading...
+module.key_vault.data.modtm_module_source.telemetry[0]: Reading...
+module.virtual_network.data.modtm_module_source.telemetry[0]: Reading...
+module.key_vault.data.modtm_module_source.telemetry[0]: Read complete after 0s
+module.network_security_group.data.modtm_module_source.telemetry[0]: Read complete after 0s
+module.virtual_network.data.modtm_module_source.telemetry[0]: Read complete after 0s
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the
+following symbols:
+  + create
+
+Terraform planned the following actions, but then encountered a problem:
+
+  # random_password.vm_admin_password will be created
+  + resource "random_password" "vm_admin_password" {
+      + bcrypt_hash = (sensitive value)
+      + id          = (known after apply)
+      + length      = 16
+      + lower       = true
+      + min_lower   = 0
+      + min_numeric = 0
+      + min_special = 0
+      + min_upper   = 0
+      + number      = true
+      + numeric     = true
+      + result      = (sensitive value)
+      + special     = true
+      + upper       = true
+    }
+
+  # module.key_vault.random_uuid.telemetry[0] will be created
+  + resource "random_uuid" "telemetry" {
+      + id     = (known after apply)
+      + result = (known after apply)
+    }
+
+  # module.network_security_group.random_uuid.telemetry[0] will be created
+  + resource "random_uuid" "telemetry" {
+      + id     = (known after apply)
+      + result = (known after apply)
+    }
+
+  # module.virtual_network.random_uuid.telemetry[0] will be created
+  + resource "random_uuid" "telemetry" {
+      + id     = (known after apply)
+      + result = (known after apply)
+    }
+
+Plan: 4 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + subnet_name = "snet-vm-001"
+╷
+│ Error: `subscription_id` is a required provider property when performing a plan/apply operation
+│
+│   with provider["registry.terraform.io/hashicorp/azurerm"],
+│   on main.tf line 15, in provider "azurerm":
+│   15: provider "azurerm" {
+│
